@@ -1,5 +1,9 @@
-<script setup></script>
+<script setup>
+import Header from './components/Header.vue'
+</script>
 
 <template>
-  <h1>First commit</h1>
+  <div class="w-4/5 m-auto bg-white rounded-xl shadow-xl h-screen mt-14">
+    <Header />
+  </div>
 </template>
