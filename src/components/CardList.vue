@@ -1,20 +1,19 @@
 <script setup>
 import Card from './Card.vue'
 
-const onClickAdd = () => {
-  alert('Вы добавили товар в корзину')
-}
+defineProps({
+  items: Array
+})
 </script>
 
 <template>
-  <div class="grid grid-cols-4 gap-5">
+  <div class="grid grid-cols-4 gap-5 mt-5">
     <Card
-      image-url="/sneakers/sneakers-1.jpg"
-      title="Мужские Кроссовки Nike Blazer Mid Suede"
-      :price="25000"
-      :is-added="true"
-      :is-favorite="true"
-      :on-click-add="onClickAdd"
+      v-for="item in items"
+      :key="item.id"
+      :title="item.title"
+      :image-url="item.imageUrl"
+      :price="item.price"
     />
   </div>
 </template>
