@@ -37,7 +37,8 @@ const fetchItems = async () => {
     items.value = data.map((obj) => ({
       ...obj,
       isFavorite: false,
-      isAdded: false
+      isAdded: false,
+      favoriteId: null
     }))
   } catch (err) {
     console.error(err)
@@ -67,7 +68,25 @@ const fetchFavorites = async () => {
 }
 
 const addToFavorite = async (item) => {
-  item.isFavorite = !item.isFavorite
+  try {
+    if (!item.isFavorite) {
+      const obj = {
+        parentId: item.id
+      }
+
+      item.isFavorite = true
+
+      const { data } = await axios.post('https://157b2cf8830f04b6.mokky.dev/favorites', obj)
+
+      item.favoriteId = data.id
+    } else {
+      item.isFavorite = false
+      await axios.delete(`https://157b2cf8830f04b6.mokky.dev/favorites/${item.favoriteId}`)
+      item.favoriteId = null
+    }
+
+    console.log(data)
+  } catch (err) {}
 }
 
 onMounted(async () => {
@@ -112,7 +131,7 @@ provide('addToFavorite', addToFavorite)
         </div>
       </div>
 
-      <CardList :items="items" />
+      <CardList :items="items" @addToFavorite="addToFavorite" />
     </main>
   </div>
 </template>
