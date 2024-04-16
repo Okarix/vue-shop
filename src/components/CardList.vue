@@ -1,5 +1,4 @@
 <script setup>
-import { inject } from 'vue'
 import Card from './Card.vue'
 
 defineProps({
@@ -7,8 +6,6 @@ defineProps({
 })
 
 const emit = defineEmits(['addToFavorite'])
-
-const addToFavorite = inject('addToFavorite')
 </script>
 
 <template>
