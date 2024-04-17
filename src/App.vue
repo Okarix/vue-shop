@@ -144,8 +144,17 @@ const addToFavorite = async (item) => {
 }
 
 onMounted(async () => {
+  // cartItems.value = JSON.parse(localStorage.getItem('cart') || '[]')
+  const localCart = localStorage.getItem('cart')
+  cartItems.value = localCart ? JSON.parse(localCart) : []
+
   await fetchItems()
   await fetchFavorites()
+
+  items.value = items.value.map((item) => ({
+    ...item,
+    isAdded: cartItems.value.some((cartItem) => cartItem.id === item.id)
+  }))
 })
 
 watch(filters, fetchItems)
@@ -156,6 +165,14 @@ watch(cartItems, () => {
     isAdded: false
   }))
 })
+
+watch(
+  cartItems,
+  () => {
+    localStorage.setItem('cart', JSON.stringify(cartItems.value))
+  },
+  { deep: true }
+)
 
 provide('cart', {
   cartItems,
