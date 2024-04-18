@@ -20,6 +20,7 @@ defineProps({
       alt="Like"
       class="absolute top-8 left-8"
       @click="onClickFavorite"
+      v-if="onClickAdd"
     />
 
     <img :src="imageUrl" alt="Sneaker" />
@@ -32,7 +33,12 @@ defineProps({
         <b>{{ price }} тг.</b>
       </div>
 
-      <img @click="onClickAdd" :src="!isAdded ? '/plus.svg' : '/checked.svg'" alt="Plus" />
+      <img
+        @click="onClickAdd"
+        :src="!isAdded ? '/plus.svg' : '/checked.svg'"
+        alt="Plus"
+        v-if="onClickFavorite"
+      />
     </div>
   </div>
 </template>
