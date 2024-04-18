@@ -7,31 +7,8 @@ import Drawer from './components/Drawer.vue'
 /*Корзина */
 const cartItems = ref([])
 const drawerState = ref(false)
-const isCreatingOrder = ref(false)
 
 const totalPrice = computed(() => cartItems.value.reduce((acc, item) => acc + item.price, 0))
-const cartIsEmpty = computed(() => cartItems.value.length === 0)
-
-const cardButtonDisabled = computed(() => isCreatingOrder.value || cartIsEmpty.value)
-
-const createOrder = async () => {
-  try {
-    isCreatingOrder.value = true
-
-    const { data } = await axios.post('https://157b2cf8830f04b6.mokky.dev/orders', {
-      items: cartItems.value,
-      totalPrice: totalPrice.value
-    })
-
-    cartItems.value = []
-
-    return data
-  } catch (err) {
-    console.error('error')
-  } finally {
-    isCreatingOrder.value = false
-  }
-}
 
 const addToCart = (item) => {
   cartItems.value.push(item)
@@ -70,13 +47,7 @@ provide('cart', {
 </script>
 
 <template>
-  <Drawer
-    v-if="drawerState"
-    :total-price="totalPrice"
-    @create-order="createOrder"
-    :is-creating-order="isCreatingOrder"
-    :btn-disabled="cardButtonDisabled"
-  />
+  <Drawer v-if="drawerState" :total-price="totalPrice" />
 
   <div class="w-4/5 m-auto bg-white rounded-xl shadow-xl mt-14">
     <Header @open-drawer="openDrawer" :total-price="totalPrice" />
