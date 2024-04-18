@@ -1,5 +1,6 @@
 <script setup>
 import axios from 'axios'
+import debounce from 'lodash.debounce'
 import { inject, reactive, ref, watch, onMounted } from 'vue'
 import CardList from '@/components/CardList.vue'
 
@@ -23,9 +24,9 @@ const onChangeSelect = (event) => {
   filters.sortBy = event.target.value
 }
 
-const onChangeSearchInput = (event) => {
+const onChangeSearchInput = debounce((event) => {
   filters.searchQuery = event.target.value
-}
+}, 300)
 
 const addToFavorite = async (item) => {
   try {
