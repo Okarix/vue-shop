@@ -1,24 +1,12 @@
 <script setup>
-import { ref, watch, reactive, provide, computed } from 'vue'
-import axios from 'axios'
+import { ref, watch, provide, computed } from 'vue'
 import Header from './components/Header.vue'
 import Drawer from './components/Drawer.vue'
 
-/*Корзина */
 const cartItems = ref([])
 const drawerState = ref(false)
 
 const totalPrice = computed(() => cartItems.value.reduce((acc, item) => acc + item.price, 0))
-
-const addToCart = (item) => {
-  cartItems.value.push(item)
-  item.isAdded = true
-}
-
-const removeFromCart = (item) => {
-  cartItems.value.splice(cartItems.value.indexOf(item), 1)
-  item.isAdded = false
-}
 
 const openDrawer = () => {
   drawerState.value = true
@@ -38,12 +26,9 @@ watch(
 
 provide('cart', {
   cartItems,
-  closeDrawer,
   openDrawer,
-  removeFromCart,
-  addToCart
+  closeDrawer
 })
-/*Корзина */
 </script>
 
 <template>
